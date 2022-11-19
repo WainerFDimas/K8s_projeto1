@@ -1,16 +1,11 @@
-FROM php:7.4-apache
+FROM mysql:5.7
 
-WORKDIR /var/www/html
-COPY index.php /var/www/html
-COPY conexao.php /var/www/html
+WORKDIR /var/lib/mysql/
 
-RUN apt-get update && apt-get- install -y \
-libfreetype-6dev \
-libjpeg62-turbo-dev \
-libpng-dev \
-&& docker-php-ext-install -j(nproc) gd \
-&& docker-php-ext-install pdo_mysql \
-&& docker-php-ext-install mysqli
+ENV MYSQL_ROOT_PASSWORD=123
 
+ENV MYSQL_DATABASE=meubanco
 
-EXPOSE 80
+ADD sql.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306
